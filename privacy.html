@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artemidos - Privacy Policy</title>
+<style>
+ body{background:#0A0D12;color:#d7dbe2;font:16px/1.65 -apple-system,Segoe UI,Roboto,sans-serif;
+      margin:0;padding:32px 20px 64px}
+ main{max-width:720px;margin:0 auto}
+ h1{font-weight:300;letter-spacing:.12em;text-transform:uppercase;font-size:1.5rem;color:#fff}
+ h2{margin-top:2em;font-size:1.05rem;color:#fff;border-bottom:1px solid #232833;padding-bottom:.4em}
+ code{background:#161a22;padding:.1em .4em;border-radius:4px;font-size:.9em}
+ strong{color:#fff}
+ a{color:#8fb7e8}
+ footer{margin-top:3em;padding-top:1.2em;border-top:1px solid #232833;color:#7a8494;font-size:.85rem}
+</style></head><body><main>
+<h1>Privacy</h1>
+<p>No account. No analytics. No tracking. No advertising identifier. No third-party
+ SDKs, no crash reporting, no attribution frameworks.
+</p>
+<h2>What can touch the network</h2>
+<p>Three things, and nothing else.
+</p>
+<p><strong>Map tiles</strong>, from <code>tile.openstreetmap.org</code>, only while the map is open and only
+ for ground not already stored. Whoever serves the tiles can see roughly *where
+ you are looking*, not where you are.
+</p>
+<p><strong>Exchange rates</strong>, from <code>api.frankfurter.dev</code>, once when the app opens online.
+ It sends nothing about you: no amounts, no currencies, no position.
+</p>
+<p><strong>The licence server</strong>, <code>admin.inritum.com</code>, and only if you buy or activate. It
+ receives an email address you typed, an order id, a licence key and a device
+ identifier. It never receives anything from the notebook, the radio keys, the
+ message log, or any position.
+</p>
+<p>One switch in <strong>Settings → Data</strong> stops the first two entirely. Stored tiles
+ and the last rate table keep working.
+</p>
+<h2>What never leaves</h2>
+<p>Position is read from the device and used on the device. The camera is used only
+ while the rangefinder is open, the microphone only while Morse or War Pigeon is
+ listening. Neither is stored or transmitted.
+</p>
+<p>The notebook, the radio keys and the message log are held on the phone and sent
+ nowhere. That is the design, and also the warning: nothing is backed up, so a
+ lost phone loses them.
+</p>
+<h2>The app lock</h2>
+<p>Optional. It encrypts the notebook, the radio keys, the message log and any
+ saved position with <strong>AES-256-GCM</strong>, under a key derived from your PIN with
+ PBKDF2-SHA256 at 210,000 iterations.
+</p>
+<p>You can set two <strong>duress PINs</strong> alongside the real one:
+</p>
+<li>one opens an app that is only a calculator and a converter, with nothing else</li>
+<p>  in it and nothing on screen saying so;
+</p>
+<li>one erases the notebook, the keys, the log and the stored map tiles, then opens</li>
+<p>  that same empty app.
+</p>
+<p>All three look identical from outside. The phone always holds three PIN slots
+ whether you configure one or three, so the number stored reveals nothing.
+</p>
+<p>Four wrong attempts cost twenty seconds and minimise the app. The counter lives
+ on disk, so force-stopping and reopening does not reset it. Nothing is ever
+ deleted for guessing wrong.
+</p>
+<p><strong>There is no recovery.</strong> Forgetting the real PIN loses that data permanently.
+</p>
+<p>### An honest limit
+</p>
+<p>The cipher is sound. The weak point is that a PIN is short. Someone who takes the
+ phone, extracts the file and attacks it offline on a GPU is working through a
+ small keyspace: an eight-digit PIN is hours of work, not centuries.
+</p>
+<p>It is good against someone who picks the phone up, someone who reads the storage
+ without cracking it, and the coercion case the duress PINs exist for. It is not
+ good against a well-resourced adversary who images the device and takes it away.
+</p>
+<footer>
+Artemidos is published by Algoz FZ-LLC and developed by Atavistic Concept.<br>
+Questions: <a href="mailto:atavisticconcept@gmail.com">atavisticconcept@gmail.com</a><br>
+Last updated 11 August 2026.
+</footer>
+</main></body></html>
