@@ -51,14 +51,61 @@
     return (m ? m[1].split(';')[0].trim() : 'this device').slice(0, 60);
   }
 
+  /* ══ TALKING TO THE LICENCE SERVER ════════════════════════════════════
+     In the installed app these go through Capacitor's native HTTP rather
+     than the WebView's fetch, and that is not an optimisation.
+
+     The app runs at origin https://localhost and the licence server is a
+     different origin, so a WebView fetch is a cross-origin request and obeys
+     CORS exactly as Safari does. A JSON content-type forces a preflight; if
+     the server does not answer OPTIONS and does not return
+     Access-Control-Allow-Origin, the browser engine drops the request before
+     it reaches the network. That is a browser rule, not a server outage, and
+     it made a perfectly healthy server look unreachable from the phone.
+
+     A native app has no business being subject to it. CapacitorHttp issues
+     the request from Android itself, where CORS does not apply. It needs no
+     entry in capacitor.config.json: the global fetch patch does, but calling
+     the plugin directly does not, which is deliberate here because patching
+     fetch app-wide would also capture the map tiles and the currency rates
+     and change how their responses are read.
+
+     On the web there is no native layer, so it falls back to fetch and the
+     server must send the header. Nothing else works there. */
+  function nativeHttp() {
+    var C = global.Capacitor;
+    return (C && C.Plugins && C.Plugins.CapacitorHttp) ? C.Plugins.CapacitorHttp : null;
+  }
+
+  /* CapacitorHttp parses JSON itself when the server says so, but returns a
+     string when it does not. Accept both rather than trusting the header. */
+  function asJson(d) {
+    if (typeof d !== 'string') return d;
+    try { return JSON.parse(d); } catch (e) { return {}; }
+  }
+
   function post(path, body) {
+    var H = nativeHttp();
+    if (H) {
+      return H.request({
+        url: API + path, method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: body
+      }).then(function (r) { return asJson(r.data); });
+    }
     return fetch(API + path, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(body)
     }).then(function (r) { return r.json(); });
   }
+
   function get(path) {
+    var H = nativeHttp();
+    if (H) {
+      return H.request({ url: API + path, method: 'GET' })
+        .then(function (r) { return asJson(r.data); });
+    }
     return fetch(API + path).then(function (r) { return r.json(); });
   }
 

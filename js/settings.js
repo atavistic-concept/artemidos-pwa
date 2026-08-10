@@ -5,7 +5,7 @@
 (function (global) {
   'use strict';
 
-  var VERSION = '5.3.2';
+  var VERSION = '5.3.3';
 
   /* ══ THE ONLY SOURCE ═══════════════════════════════════════════════════
      Paste the GitHub releases URL here and the card at the bottom of About

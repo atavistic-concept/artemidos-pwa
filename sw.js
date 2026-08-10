@@ -7,7 +7,7 @@
  * on install: field-tools-data.js alone is 2.5 MB and most sessions never
  * touch it.
  */
-const VERSION = 'artemidos-a8f8ec8b';
+const VERSION = 'artemidos-3474b4e2';
 const SHELL = [
   './',
   './index.html',
@@ -54,7 +54,7 @@ const SHELL = [
   './js/radio.js?v=b0c7ad71',
   './js/morse.js?v=5485a23e',
   './js/field-tools.js?v=fd269e67',
-  './js/settings.js?v=1355a376',
+  './js/settings.js?v=172416d6',
   './js/app.js?v=10d14cab'
 ];
 
