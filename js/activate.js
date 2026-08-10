@@ -36,6 +36,16 @@
     return d;
   }
 
+  /* Installed app, or a page in a browser? Same test app.js uses for the
+     service worker, kept in step with it deliberately: Capacitor present, or
+     the capacitor: scheme. Anything else is a browser, including the hosted
+     web app people add to a home screen. */
+  function isNativeBuild() {
+    return !!(global.Capacitor && global.Capacitor.isNativePlatform && global.Capacitor.isNativePlatform()) ||
+      !!global.Capacitor ||
+      location.protocol === 'capacitor:';
+  }
+
   function deviceLabel() {
     var m = /Android[^;]*;\s*([^)]+)\)/.exec(navigator.userAgent || '');
     return (m ? m[1].split(';')[0].trim() : 'this device').slice(0, 60);
@@ -155,8 +165,24 @@
           A.Router.refresh();
         }).catch(function () {
           A.clear(out);
-          out.appendChild(A.UI.note('Could not reach the licence server. This is the ' +
-            'one part of the app that needs a connection.'));
+          /* WHY THIS SPLITS BY BUILD.
+             In the installed app a failure here really is the connection. In a
+             browser it is usually not: the licence server has to permit
+             requests from the page's origin, and until it does the browser
+             blocks the call before it leaves the machine, which looks
+             identical to being offline. Telling a browser user to check their
+             signal would send them chasing a fault that is not theirs.
+
+             Buying is the ONLY part that needs the server. A key already
+             issued verifies against a public key held in the build, so
+             pasting one works with no network at all, and that is worth
+             saying here rather than leaving them stuck. */
+          out.appendChild(A.UI.note(isNativeBuild()
+            ? 'Could not reach the licence server. This is the one part of the app ' +
+              'that needs a connection.'
+            : A.tr('Buying is not available in the browser version yet. Buy from the ' +
+                    'Android app, or write to atavisticconcept@gmail.com. If you already ' +
+                    'have a key, paste it below: that works with no connection at all.')));
         });
       }
     }));

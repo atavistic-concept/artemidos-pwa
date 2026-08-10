@@ -7,7 +7,7 @@
  * on install: field-tools-data.js alone is 2.5 MB and most sessions never
  * touch it.
  */
-const VERSION = 'artemidos-187fa300';
+const VERSION = 'artemidos-a8f8ec8b';
 const SHELL = [
   './',
   './index.html',
