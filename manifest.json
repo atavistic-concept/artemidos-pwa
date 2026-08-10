@@ -1,0 +1,24 @@
+{
+  "name": "Artemidos — Field Tools",
+  "short_name": "Artemidos",
+  "description": "Offline field tools: unit converter, scientific calculator, camera rangefinder, flash-to-bang ranging, shadow height, and a reference catalogue of speeds, distances and ranges.",
+  "id": "/",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0A0D12",
+  "theme_color": "#0A0D12",
+  "categories": ["utilities", "productivity", "navigation"],
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Converter", "url": "./index.html#/convert" },
+    { "name": "Rangefinder", "url": "./index.html#/range" },
+    { "name": "Flash to bang", "url": "./index.html#/flash" },
+    { "name": "Speed & distance", "url": "./index.html#/speed" }
+  ]
+}

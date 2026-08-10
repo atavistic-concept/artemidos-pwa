@@ -1,0 +1,157 @@
+<!--
+  Artemidos - Field Tools
+  Copyright (c) 2026 Atavistic Concept. All rights reserved.
+  Proprietary and confidential.
+-->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#0A0D12">
+<title>Artemidos</title>
+<meta name="description" content="Artemidos - offline field tools: converters, calculators, ranging, speed and distance reference.">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Artemidos">
+<!-- iOS launch screens. iOS ignores manifest.background_color for the
+     launch panel, so without these an installed web app shows a blank
+     white screen until first paint. Cover-cropped from the same artwork
+     the in-app splash uses, one per device size. -->
+<link rel="apple-touch-startup-image" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/ios/splash-640x1136.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/ios/splash-750x1334.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1242x2208.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1125x2436.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/ios/splash-828x1792.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1242x2688.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1170x2532.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1284x2778.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1179x2556.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1290x2796.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 402px) and (device-height: 874px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1206x2622.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 440px) and (device-height: 956px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" href="icons/ios/splash-1320x2868.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/ios/splash-1536x2048.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 834px) and (device-height: 1194px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/ios/splash-1668x2388.jpg">
+<link rel="apple-touch-startup-image" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" href="icons/ios/splash-2048x2732.jpg">
+<style>html{background:#0A0D12}</style>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css?v=1">
+<link rel="stylesheet" href="css/app.css?v=fc0d31cc">
+</head>
+<body>
+
+<!-- ── Raider distressed-edge filter (referenced by CSS on raider themes) ── -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="raider-distress" x="-8%" y="-8%" width="116%" height="116%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.72 0.62" numOctaves="1" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="1.7" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<!-- ── splash ──
+     One image, identical in every theme. The wordmark is part of the artwork,
+     so there is no text drawn over it and nothing here to theme. -->
+<div id="splash" class="splash">
+  <img class="splash-img" src="icons/splash.png?v=c5a9101e" alt="Artemidos" decoding="sync" fetchpriority="high">
+</div>
+
+<!-- ── app ── -->
+<div id="app" hidden>
+
+  <header class="topbar" id="topbar">
+    <button class="tb-btn" id="tbBack" hidden aria-label="Back"></button>
+    <div class="tb-mark" id="tbMark" aria-hidden="true"></div>
+    <h1 class="tb-title" id="tbTitle">Artemidos</h1>
+    <div class="tb-actions" id="tbActions"></div>
+    <div class="tb-themes" id="tbThemes" aria-label="Theme"></div>
+  </header>
+
+  <main class="view" id="view" tabindex="-1"></main>
+
+  <nav class="tabbar" id="tabbar" aria-label="Sections"></nav>
+
+</div>
+
+<script src="js/build-config.js?v=70673fab"></script>
+  <script src="js/i18n.js?v=1f662ce1"></script>
+  <script src="js/lang-core.js?v=9796293b"></script>
+  <script src="js/core.js?v=9da9849d"></script>
+  <script src="js/licence.js?v=44ed8759"></script>
+  <script src="js/lock.js?v=bdf53570"></script>
+<script src="js/icons.js?v=fb24c677"></script>
+<script src="js/icons-pixel.js?v=958112ef"></script>
+<script src="js/units-data.js?v=d9a97e97"></script>
+<script src="js/units.js?v=646ca550"></script>
+<script src="js/calc.js?v=ac7a9d29"></script>
+<script src="js/graph.js?v=79bf00d6"></script>
+<script src="js/solver.js?v=65f772bf"></script>
+<script src="js/stats.js?v=0edca100"></script>
+<script src="js/ratio.js?v=a6507052"></script>
+<script src="js/catalog.js?v=21b24602"></script>
+<script src="js/catalog-physics.js?v=25064cb9"></script>
+<script src="js/catalog-vehicles.js?v=4d6e1627"></script>
+<script src="js/catalog-military.js?v=c3dc8f4c"></script>
+<script src="js/catalog-bio.js?v=3c3cb6a9"></script>
+<script src="js/catalog-ballistics.js?v=ab247d9e"></script>
+<script src="js/catalog-military-2.js?v=aebd039f"></script>
+<script src="js/catalog-military-3.js?v=87bf8aad"></script>
+<script src="js/catalog-military-4.js?v=f353ffe1"></script>
+<script src="js/catalog-military-5.js?v=c5b58c70"></script>
+<script src="js/catalog-optics.js?v=ffd4f0e5"></script>
+<script src="js/catalog-vision.js?v=b621b2c6"></script>
+<script src="js/catalog-radiation.js?v=7d1f8c4b"></script>
+<script src="js/catalog-thermal.js?v=2b263934"></script>
+<script src="js/catalog-ew.js?v=c77eee78"></script>
+<script src="js/catalog-firearms.js?v=19dee6fb"></script>
+<script src="js/catalog-airdefence.js?v=acff09f4"></script>
+<script src="js/rank-plates.js?v=d063f9a5"></script>
+<script src="js/catalog-camo.js?v=522ea31d"></script>
+<script src="js/catalog-ranks.js?v=ad99d01f"></script>
+<script src="js/catalog-uxo.js?v=da9a37e9"></script>
+<script src="js/catalog-cbrn.js?v=165a11f8"></script>
+<script src="js/catalog-blast.js?v=5dfe5a44"></script>
+<script src="js/catalog-capability.js?v=9af127a5"></script>
+<script src="js/catalog-biological.js?v=9fb713ab"></script>
+<script src="js/catalog-images.js?v=6aeb66ca"></script>
+<script src="js/catalog-profiles.js?v=988581e0"></script>
+<script src="js/speed.js?v=a105f994"></script>
+<script src="js/physics.js?v=c4135012"></script>
+<script src="js/clouds.js"></script>
+<script src="js/shadow.js?v=2f1b6a88"></script>
+<script src="js/rangefinder.js?v=9c01d3dd"></script>
+<script src="vendor/leaflet/leaflet.js?v=1"></script>
+<script src="js/rangemap.js?v=322842f9"></script>
+<script src="js/dive-deco.js"></script>
+<script src="js/dive.js"></script>
+<script src="js/fuel.js"></script>
+<script src="js/radio-models.js?v=395a172f"></script>
+<script src="js/wmm.js?v=cccd8969"></script>
+<script src="js/ballistics.js?v=9be90459"></script>
+<script src="js/navmath.js?v=4fa03322"></script>
+<script src="js/navigation.js?v=01aa0a29"></script>
+  <script src="js/mountain.js?v=d716faa5"></script>
+<script src="js/wpmodem.js?v=1116f459"></script>
+<script src="js/warpigeon.js?v=84f95c71"></script>
+<script src="js/spectrum.js?v=3f609cec"></script>
+<script src="js/radio.js?v=b0c7ad71"></script>
+<script src="js/radio-greyline.js"></script>
+<script src="js/morse.js?v=5485a23e"></script>
+<script src="js/notebook.js?v=db2863aa"></script>
+<script src="js/tide-data.js?v=05c6390b"></script>
+<script src="js/port-data.js"></script>
+<script src="js/port-tide-seed.js"></script>
+<script src="js/art-tide.js?v=920bf9fb"></script>
+<script src="js/sensors.js"></script>
+<script src="js/health.js"></script>
+<script src="js/field-tools.js?v=fd269e67"></script>
+<script src="js/settings.js?v=1355a376"></script>
+<script src="js/timetools.js?v=6bc65be1"></script>
+<script src="js/console.js?v=c02e3a38"></script>
+<script src="js/app.js?v=10d14cab"></script>
+  <script src="js/lockui.js?v=de4c5bd3"></script>
+  <script src="js/activate.js?v=c4896bfc"></script>
+</body>
+</html>
